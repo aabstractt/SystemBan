@@ -36,9 +36,9 @@ class QueuedMute extends Task {
 		foreach($cfg->getAll() as $name => $value){
 			if($value["expire"] == true){
 				$target = $this->getPlugin()->getServer()->getPlayer($name);
+				if($target instanceof Player) $this->getPlugin()->setMuteTime($target->getName(), $this->getPlugin()->timeDateToString(date("H:i:s d-m-y"), $value["date"]));
 				if(date("H:i:s d-m-y") > $value["date"]){
 					if($target instanceof Player){
-						$this->getPlugin()->setMuteTime($target->getName(), $this->getPlugin()->timeDateToString(date("H:i:s d-m-y"), $value["date"]));
 						$this->getPlugin()->getLogger()->warning($name . " has been unmuted for expire");
 						$target->sendMessage(TextFormat::GREEN . "Your muted time is over, you have been unmuted by CONSOLE!");
 						$cfg->remove($name);
